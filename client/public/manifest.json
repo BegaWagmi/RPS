@@ -1,0 +1,16 @@
+{
+  "name": "KalKal - Convergence Trials",
+  "short_name": "KalKal",
+  "description": "A strategic multiplayer maze game with Rock Paper Scissors battles",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#00f5ff",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RockPaperScissors - Convergence Trials</title>
+    <meta name="description" content="Strategic multiplayer maze game with Rock Paper Scissors battles">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1a1a2e">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #game-container {
+            position: relative;
+            border: 2px solid #00f5ff;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+            background: #1a1a2e;
+            width: 1024px;
+            height: 768px;
+            overflow: hidden;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #status-bar {
+            height: 50px;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid #00f5ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .status-left {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .status-right {
+            display: flex;
+            gap: 20px;
+        }
+        
+        #game-timer {
+            color: #00f5ff;
+            font-weight: bold;
+        }
+        
+        #game-area {
+            flex: 1;
+            position: relative;
+            height: 688px; /* 768 - 50 (status) - 30 (debug) */
+        }
+        
+        #game-area canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        #debug-bar {
+            height: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border-top: 1px solid #00f5ff;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            font-family: monospace;
+            font-size: 11px;
+            color: #00f5ff;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+        
+        #loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: #00f5ff;
+        }
+        
+        .loading-text {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 6px;
+            background: rgba(0, 245, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00f5ff, #ff006e);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+        }
+        
+        #ui-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .ui-element {
+            pointer-events: auto;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <!-- Top Status Bar -->
+        <div id="status-bar">
+            <div class="status-left">
+                <span id="player-count">Players: 1/1</span>
+            </div>
+            <div class="status-right">
+                <span id="game-timer">Time: 0:00</span>
+                <span id="key-count">Keys: 🪨2 📄2 ✂️1</span>
+            </div>
+        </div>
+        
+        <!-- Game Area -->
+        <div id="game-area">
+            <!-- Loading Screen -->
+            <div id="loading-screen">
+                <div class="loading-text">Loading Convergence Trials...</div>
+                <div class="loading-bar">
+                    <div class="loading-progress" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <!-- Game canvas will be inserted here by Phaser -->
+        </div>
+        
+        <!-- Bottom Debug Bar -->
+        <div id="debug-bar">
+            <span id="fps-counter">FPS: 60</span>
+            <span id="ping-counter">Ping: 0ms</span>
+            <span id="player-count-debug">Players: 1</span>
+        </div>
+    </div>
+    
+    <!-- Game Entry Point -->
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

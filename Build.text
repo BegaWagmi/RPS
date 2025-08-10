@@ -1,0 +1,124 @@
+You are a game design AI. Design a 2D multiplayer browser game called "RockPaperScissors". The game idea is:
+
+🎯 Objective:
+Players navigate a maze, collecting hidden keys (Rock, Paper, or Scissors) to pass through locked doors and reach the final "three-key door" to win. Keys and door symbols are hidden until revealed.
+
+📜 Rules & Mechanics:
+1. Start:
+   - Each player starts with 1 hidden key (randomly Rock, Paper, or Scissors).
+   - A player can hold up to 3 keys at any time (duplicates allowed).
+
+2. Doors:
+   - Each door has a hidden symbol (Rock, Paper, or Scissors).
+   - To pass, a player must have a key that beats the door’s symbol (R>P>S>R).
+   - Once opened, the door's symbol changes randomly, preventing backtracking exploitation.
+   - Some doors require two specific keys.
+   - Three-key doors are the final win path.
+
+3. Player Encounters:
+   - If two players remain within close range for 3 seconds, a rock-paper-scissors mini-game triggers.
+   - This encourages both avoiding and chasing opponents strategically.
+
+4. Mini-Game Outcome:
+   - Loser with only 1 key → eliminated from game.
+   - Loser with 2–3 keys → winner randomly steals one key (without seeing them).
+   - Winner can optionally swap one of their keys with a random key from loser.
+
+5. Anti-Bot Design:
+   - Keys are hidden, so bots can't pre-calculate optimal paths.
+   - Proximity battles require quick reaction and bluffing.
+   - Door symbols change after opening, removing static solutions.
+   - Max 3 keys and multi-key doors prevent deterministic routing.
+
+6. Implementation:
+   - Build using HTML5 Canvas or PhaserJS.
+   - Graphics: minimalist maze, 3 simple icons for Rock, Paper, Scissors, and door-opening animation.
+   - No need for Unity/Unreal.
+
+Task:
+- Output a complete, production-ready game design document with:
+  - Core loop
+  - Player progression
+  - UI/UX flow
+  - Balancing considerations
+  - Multiplayer networking logic (peer-to-peer or server-based)
+  - Anti-cheat measures
+  - Sample level layouts
+  - Suggestions for fun variation and power-ups
+
+
+
+You are a game development AI. Your task is to fully design and prototype a 2D multiplayer browser game called "RockPaperScissors". Work in clear, numbered phases. Complete each phase fully before moving to the next. Ask for clarification only when necessary.
+
+PHASE 1 – CORE GAME DESIGN
+1. Restate the game concept in your own words to confirm understanding.
+2. Define:
+   - Objective
+   - Player roles
+   - Win/Lose conditions
+   - Core game loop
+3. Detail all rules and mechanics:
+   - Player starting conditions
+   - Key collection and storage
+   - Door types and requirements
+   - Rock-Paper-Scissors battle triggers
+   - Battle outcomes
+   - Anti-bot and anti-cheat elements
+4. Identify potential balance issues and solutions.
+
+PHASE 2 – GAME DESIGN DOCUMENT (GDD)
+1. Write a complete GDD covering:
+   - Story/theme (even minimal)
+   - Player progression
+   - Level design principles
+   - UI/UX flow
+   - Visual style & assets list
+   - Sound/Music style
+   - Networking model (peer-to-peer or server)
+2. Include at least 3 sample maze layouts.
+
+PHASE 3 – TECHNICAL SPECIFICATIONS
+1. Choose technology stack (HTML5 Canvas or PhaserJS).
+2. Define:
+   - File structure
+   - Game loop architecture
+   - Networking logic (real-time sync)
+   - Key/door randomization algorithms
+   - Proximity detection for battles
+3. Suggest libraries for:
+   - Networking
+   - Input handling
+   - Asset loading
+4. Describe data formats for player state, doors, keys.
+
+PHASE 4 – PROTOTYPE IMPLEMENTATION
+1. Generate clean, commented PhaserJS code for:
+   - Player movement
+   - Maze rendering
+   - Key collection
+   - Door locking/unlocking
+   - Rock-Paper-Scissors mini-game
+   - Key stealing/swapping logic
+2. Include placeholder assets and minimal UI.
+3. Implement multiplayer with basic synchronization.
+4. Test core gameplay loop.
+
+PHASE 5 – POLISH & VARIATIONS
+1. Suggest gameplay variations:
+   - Power-ups
+   - Special doors
+   - Fog of war
+   - Timed rounds
+2. Add aesthetic polish:
+   - Smooth animations
+   - Particle effects for door openings
+   - Sound feedback
+3. Prepare final optimized build for browser deployment.
+
+RULES FOR YOU:
+- Always provide code in a runnable state.
+- Always structure responses clearly.
+- Use bullet points, numbered lists, and code blocks for clarity.
+- At the end of each phase, summarize what is done and what’s next.
+- Do not skip phases.
+
