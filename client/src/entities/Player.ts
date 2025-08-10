@@ -62,9 +62,12 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     // Add to scene first
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    // Ensure player renders above tilemap and doors
+    this.setDepth(20);
     
     // Setup visuals
     this.setupVisuals();
+    this.bringUIToFront();
     
     // Setup physics after sprite is added to scene
     this.setupPhysics();
@@ -509,6 +512,17 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     super.destroy();
   }
 
+  // Rendering helpers
+  public bringUIToFront(): void {
+    // Ensure all auxiliary visuals render above tile layers and doors
+    const uiDepth = Math.max(this.depth + 1, 21);
+    this.nameText?.setDepth(uiDepth);
+    this.keyIndicators?.setDepth(uiDepth);
+    this.powerUpIndicators?.setDepth(uiDepth);
+    this.statusIndicator?.setDepth(uiDepth);
+    this.proximityIndicator?.setDepth(uiDepth);
+  }
+
   // Getters
   public getPlayerData(): PlayerData {
     return this.playerData;
@@ -689,6 +703,23 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
   public canPassThroughDoor(doorType: KeyType): boolean {
     // Check if player has the required key
     if (this.hasKey(doorType)) {
+      return true;
+    }
+    
+    // Check if player has Ghost Walk power-up
+    if (this.hasPowerUp(PowerUpType.GHOST_WALK)) {
+      return this.usePowerUp(PowerUpType.GHOST_WALK);
+    }
+    
+    return false;
+  }
+
+  // Check if player can pass through portal door (requires multiple keys)
+  public canPassThroughPortalDoor(requirements: KeyType[]): boolean {
+    // Check if player has all required keys
+    const hasAllKeys = requirements.every(keyType => this.hasKey(keyType));
+    
+    if (hasAllKeys) {
       return true;
     }
     

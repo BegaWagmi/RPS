@@ -69,13 +69,33 @@ export class MazeGenerator {
 
     // Find suitable positions for spawn points, keys, doors, and exit
     const floorTiles = this.findFloorTiles(layout);
+    console.log(`🔍 Found ${floorTiles.length} floor tiles`);
+    
     const spawnPoints = this.generateSpawnPoints(floorTiles, 4); // Support up to 4 players
+    console.log(`👥 Generated ${spawnPoints.length} spawn points`);
+    
     const keySpawns = this.generateKeySpawns(floorTiles, spawnPoints, 6); // 6 keys
+    console.log(`🔑 Generated ${keySpawns.length} key spawns`);
+    
     const doorPositions = this.generateDoorPositions(layout, floorTiles, 3); // 3 doors
+    console.log(`🚪 Generated ${doorPositions.length} door positions`);
+    
     const exitPosition = this.generateExitPosition(floorTiles, spawnPoints);
+    console.log(`🏁 Generated exit position at (${exitPosition.x}, ${exitPosition.y})`);
 
     // Place special tiles in the layout
     this.placeSpecialTiles(layout, spawnPoints, keySpawns, doorPositions, exitPosition);
+    
+    // Verify door placement
+    let doorTileCount = 0;
+    for (let y = 0; y < layout.length; y++) {
+      for (let x = 0; x < layout[y].length; x++) {
+        if (layout[y][x] === TileType.DOOR) {
+          doorTileCount++;
+        }
+      }
+    }
+    console.log(`✅ Verified ${doorTileCount} door tiles placed in layout`);
 
     return {
       id: `maze_${this.seed}_${Date.now()}`,
@@ -633,11 +653,15 @@ export class MazeGenerator {
     const used = new Set<string>();
     const potentialDoors: Vector2[] = [];
 
+    console.log('🔍 Generating door positions...');
+    console.log(`📐 Layout dimensions: ${layout[0]?.length}x${layout.length}`);
+    console.log(`🎯 Target door count: ${count}`);
+
     // Find walls that are adjacent to floors and could be doors
     for (let y = 1; y < layout.length - 1; y++) {
       for (let x = 1; x < layout[y].length - 1; x++) {
         if (layout[y][x] === TileType.WALL) {
-          // Check if adjacent to floors
+          // Check if adjacent to floors - make it less restrictive
           const adjacentFloors = [
             { x: x - 1, y },
             { x: x + 1, y },
@@ -649,11 +673,33 @@ export class MazeGenerator {
             layout[pos.y][pos.x] === TileType.FLOOR
           );
 
-          if (adjacentFloors.length >= 2) {
+          // Changed from >= 2 to >= 1 to be less restrictive
+          if (adjacentFloors.length >= 1) {
             potentialDoors.push({ x, y });
           }
         }
       }
+    }
+
+    console.log(`🔍 Found ${potentialDoors.length} potential door positions`);
+
+    // If we don't have enough potential doors, try a different approach
+    if (potentialDoors.length < count) {
+      console.log(`⚠️ Not enough potential doors (${potentialDoors.length}), trying alternative approach...`);
+      
+      // Look for any wall tiles that are not at the very edge
+      for (let y = 2; y < layout.length - 2; y++) {
+        for (let x = 2; x < layout[y].length - 2; x++) {
+          if (layout[y][x] === TileType.WALL) {
+            const key = `${x},${y}`;
+            if (!used.has(key)) {
+              potentialDoors.push({ x, y });
+              used.add(key);
+            }
+          }
+        }
+      }
+      console.log(`🔍 After alternative approach: ${potentialDoors.length} potential door positions`);
     }
 
     // Select doors from potential positions
@@ -663,6 +709,7 @@ export class MazeGenerator {
       doors.push(door);
     }
 
+    console.log(`✅ Generated ${doors.length} door positions:`, doors);
     return doors;
   }
 
@@ -698,22 +745,18 @@ export class MazeGenerator {
     doorPositions: Vector2[], 
     exitPosition: Vector2
   ): void {
-    // Mark spawn points
-    spawnPoints.forEach(spawn => {
-      layout[spawn.y][spawn.x] = TileType.SPAWN;
-    });
+    // Do not mark SPAWN tiles in the layout anymore. Keep spawnPoints for logic only.
 
-    // Mark key spawns
-    keySpawns.forEach(key => {
-      layout[key.y][key.x] = TileType.KEY_SPAWN;
-    });
+    // Mark key spawns (K blocks removed from map)
+    // keySpawns.forEach(key => {
+    //   layout[key.y][key.x] = TileType.KEY_SPAWN;
+    // });
 
     // Mark doors
     doorPositions.forEach(door => {
       layout[door.y][door.x] = TileType.DOOR;
     });
 
-    // Mark exit
-    layout[exitPosition.y][exitPosition.x] = TileType.EXIT;
+    // Do not mark EXIT tiles in the layout anymore.
   }
 }

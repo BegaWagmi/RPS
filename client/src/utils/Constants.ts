@@ -111,9 +111,8 @@ export enum KeyType {
 }
 
 export enum DoorType {
-  SINGLE = 'single',
-  DOUBLE = 'double',
-  TRIPLE = 'triple'
+  NORMAL = 'normal',    // (D) - Requires 1 key, allows passage
+  PORTAL = 'portal'     // (P) - Requires 2 random keys, teleports to new map
 }
 
 export enum BattleState {

@@ -87,10 +87,10 @@ export enum TileType {
   EMPTY = 0,
   WALL = 1,
   FLOOR = 2,
-  SPAWN = 3,
+  SPAWN = 3, // legacy index, treated as FLOOR visually
   KEY_SPAWN = 4,
   DOOR = 5,
-  EXIT = 6
+  EXIT = 6 // legacy index, treated as FLOOR visually
 }
 
 export interface DoorData {
@@ -102,6 +102,8 @@ export interface DoorData {
   requirements: KeyType[];
   lastOpened: number;
   openCount: number;
+  isPortal: boolean;  // True for portal doors, false for normal doors
+  targetMap?: string; // For portal doors - the map to teleport to
 }
 
 // Battle System Types

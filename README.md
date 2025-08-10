@@ -65,9 +65,25 @@ npm run preview:prod # Preview production build
 ### Game Flow
 1. **Start**: Each player spawns with 1 random hidden key
 2. **Explore**: Navigate maze to find more keys (max 3 at a time)
-3. **Unlock**: Use keys to open doors (Rock > Scissors > Paper > Rock)
+3. **Unlock**: Use keys to open doors and portals
 4. **Battle**: Stay near other players for 3 seconds to trigger RPS battle
 5. **Win**: Reach the final door requiring Rock + Paper + Scissors keys
+
+### Door System
+The game features two types of doors with distinct mechanics:
+
+#### 🚪 Normal Doors (D)
+- **Requirements**: 1 specific key (Rock, Paper, or Scissors)
+- **Behavior**: Unlock with matching key, allow passage through maze
+- **After Use**: Door cycles to next key type for replayability
+- **Collision**: Properly disabled after opening to allow player passage
+
+#### 🌀 Portal Doors (P)
+- **Requirements**: 2 random keys (different combinations)
+- **Behavior**: Consume 2 keys, teleport player to new generated map
+- **Visual**: Purple tint with door_rock texture to distinguish from normal doors
+- **Strategy**: High-risk, high-reward for advanced players
+- **Status**: Map teleportation implementation pending (doors open and consume keys)
 
 ### Battle System
 - **Proximity Trigger**: Players within 2 tiles for 3 seconds

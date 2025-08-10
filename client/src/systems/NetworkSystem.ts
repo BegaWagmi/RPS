@@ -78,7 +78,7 @@ export class NetworkSystem extends Phaser.Events.EventEmitter {
               playerName: this.playerName
             }
           });
-          
+
           resolve(true);
         });
         
@@ -399,13 +399,13 @@ export class NetworkSystem extends Phaser.Events.EventEmitter {
         ],
         maze: {
           id: 'mock-maze',
-          width: 20,
-          height: 15,
+          width: 32,
+          height: 21,
           layout: [],
           spawnPoints: [{ x: 2, y: 2 }],
-          keySpawns: [{ x: 5, y: 5 }],
+          keySpawns: [], // K blocks removed from map
           doorPositions: [{ x: 8, y: 8 }],
-          exitPosition: { x: 18, y: 13 },
+          exitPosition: { x: 30, y: 19 },
           theme: 'cyber'
         }
       });

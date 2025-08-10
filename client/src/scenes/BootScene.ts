@@ -243,20 +243,20 @@ export class BootScene extends Phaser.Scene {
       empty: '#00000000',      // Transparent (index 0 - EMPTY)
       wall: '#4a4a4a',         // Dark gray (index 1 - WALL)
       floor: '#2a2a3a',        // Dark blue-gray (index 2 - FLOOR)  
-      spawn: '#4a90e2',        // Blue (index 3 - SPAWN)
-      keySpawn: '#f5a623',     // Orange (index 4 - KEY_SPAWN)
+      spawn: '#2a2a3a',        // Use floor color for legacy SPAWN index (3)
+      // keySpawn: '#f5a623',     // Orange (index 4 - KEY_SPAWN) - K blocks removed
       door: '#8b4513',         // Brown (index 5 - DOOR)
-      exit: '#50e3c2'          // Cyan (index 6 - EXIT)
+      exit: '#2a2a3a'          // Use floor color for legacy EXIT index (6)
     };
 
     // Draw each tile type at its corresponding index
     this.drawTile(ctx, 0, tileSize, tileColors.empty, '');     // EMPTY
     this.drawTile(ctx, 1, tileSize, tileColors.wall, ''); // WALL
     this.drawTile(ctx, 2, tileSize, tileColors.floor, '');    // FLOOR
-    this.drawTile(ctx, 3, tileSize, tileColors.spawn, 'S');   // SPAWN
-    this.drawTile(ctx, 4, tileSize, tileColors.keySpawn, 'K'); // KEY_SPAWN
+    this.drawTile(ctx, 3, tileSize, tileColors.spawn, '');    // SPAWN (hidden)
+    // this.drawTile(ctx, 4, tileSize, tileColors.keySpawn, 'K'); // KEY_SPAWN - K blocks removed
     this.drawTile(ctx, 5, tileSize, tileColors.door, 'D');    // DOOR
-    this.drawTile(ctx, 6, tileSize, tileColors.exit, 'E');    // EXIT
+    this.drawTile(ctx, 6, tileSize, tileColors.exit, '');     // EXIT (hidden)
 
     // Create texture from canvas
     this.textures.addCanvas('maze_tileset', canvas);
@@ -406,27 +406,22 @@ export class BootScene extends Phaser.Scene {
     const mazeLayouts = {
       spiral: {
         id: 'spiral',
-        width: 20,
-        height: 15,
-        layout: this.generateSampleMaze(20, 15),
+        width: 32,
+        height: 21,
+        layout: this.generateSampleMaze(32, 21),
         spawnPoints: [
           { x: 1, y: 1 },
-          { x: 18, y: 1 },
-          { x: 1, y: 13 },
-          { x: 18, y: 13 }
+          { x: 30, y: 1 },
+          { x: 1, y: 19 },
+          { x: 30, y: 19 }
         ],
-        keySpawns: [
-          { x: 5, y: 5 },
-          { x: 15, y: 5 },
-          { x: 10, y: 10 },
-          { x: 5, y: 12 }
-        ],
+        keySpawns: [], // K blocks removed from map
         doorPositions: [
           { x: 8, y: 3 },
-          { x: 12, y: 7 },
-          { x: 8, y: 11 }
+          { x: 20, y: 7 },
+          { x: 12, y: 17 }
         ],
-        exitPosition: { x: 18, y: 7 },
+        exitPosition: { x: 30, y: 10 },
         theme: 'cyber'
       }
     };
